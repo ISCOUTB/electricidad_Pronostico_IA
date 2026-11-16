@@ -1,0 +1,28 @@
+{
+  "source": "XM API",
+  "url": "https://servapibi.xm.com.co/daily",
+  "request": {
+    "MetricId": "VoluUtilDiarEner",
+    "StartDate": "2026-10-17",
+    "EndDate": "2026-11-15",
+    "Entity": "Sistema",
+    "Filter": []
+  },
+  "retrieved_at_utc": "2026-11-16T02:51:17.637512+00:00",
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "data_license": "Por confirmar con XM",
+  "attribution": "Fuente: XM. La licencia de los datos está por confirmar.",
+  "catalog_metric": {
+    "MetricId": "VoluUtilDiarEner",
+    "MetricName": "Volumen Útil diario Energía por Sistema",
+    "Entity": "Sistema",
+    "MaxDays": 31,
+    "Type": "DailyEntities",
+    "Url": "https://servapibi.xm.com.co/daily",
+    "Filter": "No aplica",
+    "MetricUnits": "kWh",
+    "MetricDescription": "Volumen almacenado por encima del Nivel Minimo Tecnico, reportado diariamente por los agentes. En % corresponde a la relacion entre el Volumen Util Diario y la Capacidad Util del Embalse"
+  },
+  "raw_response_file": "volumen_util_embalses_voluutildiarener.json"
+}

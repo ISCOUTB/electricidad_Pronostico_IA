@@ -1,0 +1,28 @@
+{
+  "source": "XM API",
+  "url": "https://servapibi.xm.com.co/hourly",
+  "request": {
+    "MetricId": "PrecBolsNaci",
+    "StartDate": "2026-10-17",
+    "EndDate": "2026-11-15",
+    "Entity": "Sistema",
+    "Filter": []
+  },
+  "retrieved_at_utc": "2026-11-16T02:51:11.579359+00:00",
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "data_license": "Por confirmar con XM",
+  "attribution": "Fuente: XM. La licencia de los datos está por confirmar.",
+  "catalog_metric": {
+    "MetricId": "PrecBolsNaci",
+    "MetricName": "Precio Bolsa Nacional por Sistema",
+    "Entity": "Sistema",
+    "MaxDays": 31,
+    "Type": "HourlyEntities",
+    "Url": "https://servapibi.xm.com.co/hourly",
+    "Filter": "No aplica",
+    "MetricUnits": "COP/kWh",
+    "MetricDescription": "Precio de oferta de la última planta flexible para atender la demanda comercial nacional, más delta de incremento para remunerar los costos no cubiertos de las plantas térmicas en el despacho ideal."
+  },
+  "raw_response_file": "precio_bolsa_nacional_precbolsnaci.json"
+}

@@ -1,0 +1,28 @@
+{
+  "source": "XM API",
+  "url": "https://servapibi.xm.com.co/hourly",
+  "request": {
+    "MetricId": "DemaReal",
+    "StartDate": "2026-10-17",
+    "EndDate": "2026-11-15",
+    "Entity": "Sistema",
+    "Filter": []
+  },
+  "retrieved_at_utc": "2026-11-16T02:51:13.122437+00:00",
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "data_license": "Por confirmar con XM",
+  "attribution": "Fuente: XM. La licencia de los datos está por confirmar.",
+  "catalog_metric": {
+    "MetricId": "DemaReal",
+    "MetricName": "Demanda Real por Sistema",
+    "Entity": "Sistema",
+    "MaxDays": 31,
+    "Type": "HourlyEntities",
+    "Url": "https://servapibi.xm.com.co/hourly",
+    "Filter": "No aplica",
+    "MetricUnits": "kWh",
+    "MetricDescription": "Demanda de usuarios regulados y no regulados que hacen parte del Sistema Interconectado Nacional (no incluye Alumbrado Público)"
+  },
+  "raw_response_file": "demanda_real_sin_demareal.json"
+}

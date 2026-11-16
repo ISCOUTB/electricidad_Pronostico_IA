@@ -1,0 +1,28 @@
+{
+  "source": "XM API",
+  "url": "https://servapibi.xm.com.co/daily",
+  "request": {
+    "MetricId": "AporEnerMediHist",
+    "StartDate": "2026-10-17",
+    "EndDate": "2026-11-15",
+    "Entity": "Sistema",
+    "Filter": []
+  },
+  "retrieved_at_utc": "2026-11-16T02:51:16.151291+00:00",
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "data_license": "Por confirmar con XM",
+  "attribution": "Fuente: XM. La licencia de los datos está por confirmar.",
+  "catalog_metric": {
+    "MetricId": "AporEnerMediHist",
+    "MetricName": "Aportes Media Histórica Energía por Sistema",
+    "Entity": "Sistema",
+    "MaxDays": 31,
+    "Type": "DailyEntities",
+    "Url": "https://servapibi.xm.com.co/daily",
+    "Filter": "No aplica",
+    "MetricUnits": "kWh",
+    "MetricDescription": "Caudal medio mensual histórico en energia para los rios del SIN, obtenido como el promedio de los valores de cada mes para todos años con información disponibles "
+  },
+  "raw_response_file": "media_historica_aportes_aporenermedihist.json"
+}

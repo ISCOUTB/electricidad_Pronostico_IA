@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+# Datos crudos: conservar solo muestras pequeñas seleccionadas manualmente.
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/muestra-pequena/
+!data/raw/muestra-pequena/**
+!data/raw/xm_samples/
+!data/raw/xm_samples/**
