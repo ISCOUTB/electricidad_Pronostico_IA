@@ -1,0 +1,3 @@
+| Fecha      | Integrante | Herramienta     | Para qué se usó                                              | Qué se aceptó / modificó / descartó | Cómo se verificó |
+|------------|------------|-----------------|--------------------------------------------------------------|--------------------------------------|------------------|
+| 2026-11-16 | Sebastian Andres Torres Ortega   | Copilot (agente) | Andamiaje del repo y script de exploración de la API de XM | [completar]                          | [completar]      |
