@@ -1,0 +1,326 @@
+{
+  "date": "2026-11-16",
+  "created_at_utc": "2026-11-17T00:10:50.349478+00:00",
+  "seed": 42,
+  "commit_hash": "eb536ffff0ac823fb927f0b57070806f6dcc831f",
+  "data": {
+    "train_file": "data/processed/train.csv",
+    "train_sha256": "45f309bf99ae4c069c84506a29a979a48eaaecf9a4969b5d0a8b4af4335c975a",
+    "train_rows": 2892,
+    "validation_file": "data/processed/val.csv",
+    "validation_sha256": "c7c34a7f7e666697b8a0fc6fc84c6b65d51e1571da3cabf39bf140d1a4e2cc07",
+    "validation_rows": 731
+  },
+  "units": "COP/kWh, escala original",
+  "mase_scale_train_persistence_cop_kwh": 18.390698647526808,
+  "parameters": {
+    "B0": {
+      "estimator": "DummyRegressor",
+      "strategy": "mean"
+    },
+    "B1": {
+      "estimator": "persistencia",
+      "prediction": "price_t"
+    },
+    "B2": {
+      "estimator": "Ridge",
+      "features": "config.feature_groups.price",
+      "pipeline": [
+        "StandardScaler",
+        "Ridge"
+      ],
+      "alpha_grid": [
+        0.1,
+        1,
+        10,
+        100,
+        1000
+      ],
+      "search_cv": "TimeSeriesSplit(n_splits=5) en train",
+      "scoring": "neg_mean_absolute_error",
+      "best_alpha": 10.0,
+      "best_cv_mae_cop_kwh": 16.376818821830717
+    },
+    "rolling_origin": {
+      "data": "train.csv + val.csv, ordenados por target_date",
+      "cv": "TimeSeriesSplit(n_splits=5)",
+      "B2_alpha": 10.0
+    }
+  },
+  "validation_metrics": {
+    "B0": {
+      "global": {
+        "mae_cop_kwh": 410.39625301911207,
+        "rmse_cop_kwh": 552.8847571046092,
+        "mase": 22.315424817985498,
+        "median_absolute_error_cop_kwh": 334.86483081604433,
+        "top_30_absolute_error_fraction": 0.16365047256344417
+      },
+      "subgroups": {
+        "hydro_regime": {
+          "alto": {
+            "mae_cop_kwh": 152.2980042399251,
+            "rmse_cop_kwh": 226.21457278051614,
+            "mase": 8.281251689174201,
+            "median_absolute_error_cop_kwh": 91.69829081604425,
+            "top_30_absolute_error_fraction": 0.5435241917205852
+          },
+          "bajo": {
+            "mae_cop_kwh": 579.3486922927972,
+            "rmse_cop_kwh": 695.1238557661159,
+            "mase": 31.502266629261978,
+            "median_absolute_error_cop_kwh": 487.45203081604427,
+            "top_30_absolute_error_fraction": 0.21607383647546136
+          },
+          "medio": {
+            "mae_cop_kwh": 295.6747423832047,
+            "rmse_cop_kwh": 413.80969329658495,
+            "mase": 16.077406739681813,
+            "median_absolute_error_cop_kwh": 235.93846081604423,
+            "top_30_absolute_error_fraction": 0.4075695648335525
+          }
+        },
+        "tipo_dia": {
+          "habil": {
+            "mae_cop_kwh": 425.7067282686036,
+            "rmse_cop_kwh": 564.5777841343611,
+            "mase": 23.147936705811496,
+            "median_absolute_error_cop_kwh": 342.87553081604426,
+            "top_30_absolute_error_fraction": 0.2116235336047141
+          },
+          "no_laboral": {
+            "mae_cop_kwh": 379.4589703868752,
+            "rmse_cop_kwh": 528.4681124007956,
+            "mase": 20.633200383494135,
+            "median_absolute_error_cop_kwh": 290.13498581604426,
+            "top_30_absolute_error_fraction": 0.35596041370934334
+          }
+        },
+        "year": {
+          "2023": {
+            "mae_cop_kwh": 352.09400467799696,
+            "rmse_cop_kwh": 447.3439902873958,
+            "mase": 19.14522180076866,
+            "median_absolute_error_cop_kwh": 293.81110081604425,
+            "top_30_absolute_error_fraction": 0.2118519983708478
+          },
+          "2024": {
+            "mae_cop_kwh": 468.5392055997325,
+            "rmse_cop_kwh": 641.0600868233038,
+            "mase": 25.476966078324704,
+            "median_absolute_error_cop_kwh": 361.4822458160443,
+            "top_30_absolute_error_fraction": 0.28558623514377873
+          }
+        }
+      }
+    },
+    "B1": {
+      "global": {
+        "mae_cop_kwh": 66.2736418878249,
+        "rmse_cop_kwh": 140.00943647140758,
+        "mase": 3.603650038425126,
+        "median_absolute_error_cop_kwh": 37.23334,
+        "top_30_absolute_error_fraction": 0.3126954292398396
+      },
+      "subgroups": {
+        "hydro_regime": {
+          "alto": {
+            "mae_cop_kwh": 47.683737018633536,
+            "rmse_cop_kwh": 71.54285815346698,
+            "mase": 2.592818137719095,
+            "median_absolute_error_cop_kwh": 28.245409999999993,
+            "top_30_absolute_error_fraction": 0.5379302191765406
+          },
+          "bajo": {
+            "mae_cop_kwh": 66.12907671087532,
+            "rmse_cop_kwh": 133.8415804504792,
+            "mase": 3.595789261642238,
+            "median_absolute_error_cop_kwh": 33.50279999999998,
+            "top_30_absolute_error_fraction": 0.4521325212371257
+          },
+          "medio": {
+            "mae_cop_kwh": 82.06367170984456,
+            "rmse_cop_kwh": 187.04210920963666,
+            "mase": 4.462237856356834,
+            "median_absolute_error_cop_kwh": 48.05833999999999,
+            "top_30_absolute_error_fraction": 0.5614477126993438
+          }
+        },
+        "tipo_dia": {
+          "habil": {
+            "mae_cop_kwh": 66.48345652351738,
+            "rmse_cop_kwh": 142.10364712819225,
+            "mase": 3.6150587749671006,
+            "median_absolute_error_cop_kwh": 37.84426000000008,
+            "top_30_absolute_error_fraction": 0.3691304850172202
+          },
+          "no_laboral": {
+            "mae_cop_kwh": 65.84967760330578,
+            "rmse_cop_kwh": 135.67913306757816,
+            "mase": 3.580596847644028,
+            "median_absolute_error_cop_kwh": 33.442360000000036,
+            "top_30_absolute_error_fraction": 0.5460317646164446
+          }
+        },
+        "year": {
+          "2023": {
+            "mae_cop_kwh": 47.578008109589035,
+            "rmse_cop_kwh": 70.15673986975759,
+            "mase": 2.587069095169332,
+            "median_absolute_error_cop_kwh": 34.81546000000003,
+            "top_30_absolute_error_fraction": 0.3051187423938036
+          },
+          "2024": {
+            "mae_cop_kwh": 84.91819469945354,
+            "rmse_cop_kwh": 185.0491970297814,
+            "mase": 4.617453438120111,
+            "median_absolute_error_cop_kwh": 39.722499999999954,
+            "top_30_absolute_error_fraction": 0.47779596415093845
+          }
+        }
+      }
+    },
+    "B2": {
+      "global": {
+        "mae_cop_kwh": 70.07456265595259,
+        "rmse_cop_kwh": 142.94688368230862,
+        "mase": 3.8103262958624065,
+        "median_absolute_error_cop_kwh": 39.97952725350922,
+        "top_30_absolute_error_fraction": 0.2933973984339784
+      },
+      "subgroups": {
+        "hydro_regime": {
+          "alto": {
+            "mae_cop_kwh": 49.764739235517396,
+            "rmse_cop_kwh": 73.30392645108377,
+            "mase": 2.705973285153568,
+            "median_absolute_error_cop_kwh": 30.392844932126536,
+            "top_30_absolute_error_fraction": 0.5299405914792389
+          },
+          "bajo": {
+            "mae_cop_kwh": 70.20557294356432,
+            "rmse_cop_kwh": 132.31255226143765,
+            "mase": 3.8174500212913665,
+            "median_absolute_error_cop_kwh": 39.136309907761756,
+            "top_30_absolute_error_fraction": 0.41238857562954634
+          },
+          "medio": {
+            "mae_cop_kwh": 86.7610429267321,
+            "rmse_cop_kwh": 196.7612865424241,
+            "mase": 4.71765888776606,
+            "median_absolute_error_cop_kwh": 50.16142333454127,
+            "top_30_absolute_error_fraction": 0.5608363649085701
+          }
+        },
+        "tipo_dia": {
+          "habil": {
+            "mae_cop_kwh": 70.50668185178297,
+            "rmse_cop_kwh": 145.02197009886007,
+            "mase": 3.833822912500649,
+            "median_absolute_error_cop_kwh": 42.45218822786353,
+            "top_30_absolute_error_fraction": 0.3427830078254801
+          },
+          "no_laboral": {
+            "mae_cop_kwh": 69.20139618173339,
+            "rmse_cop_kwh": 138.65909546236801,
+            "mase": 3.7628475953000096,
+            "median_absolute_error_cop_kwh": 34.52690769324512,
+            "top_30_absolute_error_fraction": 0.5408938172237157
+          }
+        },
+        "year": {
+          "2023": {
+            "mae_cop_kwh": 52.6516114762868,
+            "rmse_cop_kwh": 74.41003341357754,
+            "mase": 2.8629478675823674,
+            "median_absolute_error_cop_kwh": 39.607458426708945,
+            "top_30_absolute_error_fraction": 0.2867337151545935
+          },
+          "2024": {
+            "mae_cop_kwh": 87.44991014387065,
+            "rmse_cop_kwh": 187.85650897427635,
+            "mase": 4.755116258491407,
+            "median_absolute_error_cop_kwh": 40.93058688060175,
+            "top_30_absolute_error_fraction": 0.4604156473062938
+          }
+        }
+      }
+    }
+  },
+  "rolling_origin_mae": {
+    "B1": [
+      {
+        "fold": 1,
+        "start_target_date": "2016-09-30",
+        "end_target_date": "2018-05-25",
+        "mae_cop_kwh": 9.516131575456052
+      },
+      {
+        "fold": 2,
+        "start_target_date": "2018-05-26",
+        "end_target_date": "2020-01-18",
+        "mae_cop_kwh": 18.39618063018242
+      },
+      {
+        "fold": 3,
+        "start_target_date": "2020-01-19",
+        "end_target_date": "2021-09-12",
+        "mae_cop_kwh": 14.078681376451076
+      },
+      {
+        "fold": 4,
+        "start_target_date": "2021-09-13",
+        "end_target_date": "2023-05-08",
+        "mae_cop_kwh": 22.47325950248756
+      },
+      {
+        "fold": 5,
+        "start_target_date": "2023-05-09",
+        "end_target_date": "2024-12-31",
+        "mae_cop_kwh": 73.46476791044776
+      }
+    ],
+    "B2": [
+      {
+        "fold": 1,
+        "start_target_date": "2016-09-30",
+        "end_target_date": "2018-05-25",
+        "mae_cop_kwh": 10.286984964619291
+      },
+      {
+        "fold": 2,
+        "start_target_date": "2018-05-26",
+        "end_target_date": "2020-01-18",
+        "mae_cop_kwh": 18.854046426365
+      },
+      {
+        "fold": 3,
+        "start_target_date": "2020-01-19",
+        "end_target_date": "2021-09-12",
+        "mae_cop_kwh": 14.647572853000797
+      },
+      {
+        "fold": 4,
+        "start_target_date": "2021-09-13",
+        "end_target_date": "2023-05-08",
+        "mae_cop_kwh": 23.32428119690814
+      },
+      {
+        "fold": 5,
+        "start_target_date": "2023-05-09",
+        "end_target_date": "2024-12-31",
+        "mae_cop_kwh": 77.44000311772814
+      }
+    ]
+  },
+  "reference_baseline": "B1",
+  "prediction_file": "experiments/predictions/baselines_val.csv",
+  "versions": {
+    "python": "3.12.0",
+    "numpy": "2.5.5",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.9.1",
+    "holidays": "0.108",
+    "pyyaml": "6.0.3"
+  }
+}

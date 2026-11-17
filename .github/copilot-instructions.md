@@ -24,7 +24,7 @@
 | Usuario y problema real | Comercializadores, usuarios no regulados y gestores de compras expuestos al precio spot horario del SIN. Volátil y agudizado por El Niño: el precio máximo pasó de $285,30 a $900,82/kWh entre el 31-dic-2025 y el 3-jul-2026 (El Colombiano, 6-jul-2026). Fuentes completas en `docs/propuesta.md`. |
 | Pregunta que responde el proyecto | ¿Mejoran las variables hidro-climáticas el pronóstico del precio del día siguiente frente a repetir el precio de hoy y a modelos que solo usan la historia del precio? ¿En qué regímenes falla? |
 | Tarea de aprendizaje | Regresión supervisada de serie temporal, horizonte t+1 |
-| Variable objetivo | Precio de bolsa nacional diario (COP/kWh): promedio simple de las 24 horas, o el ponderado diario oficial si la API lo entrega. Se fija en el Hito 2, antes de modelar, y no cambia después. |
+| Variable objetivo | `PPPrecBolsNaci`: precio oficial de bolsa nacional ponderado, diario (COP/kWh); no se promedian las horas. |
 | Fuentes de datos (APIs) y licencias | API XM (precio de bolsa, demanda, aportes y media histórica, volumen útil) · Open-Meteo histórico ERA5, CC BY 4.0 (respaldo: NASA POWER). Sin datos personales. Licencia de los datos de XM por confirmar. |
 | Periodo y partición | 2015-01-01 → último dato. **Cronológica:** entrenamiento 2015-01-01→2022-12-31 · validación 2023-01-01→2024-12-31 · prueba 2025-01-01→fin. La prueba se usa una sola vez. Ajuste con `TimeSeriesSplit` (5 pliegues). |
 | Línea base | B0 `DummyRegressor` (media) · B1 persistencia ŷ(t+1)=y(t) · B2 Ridge sobre rezagos. La de referencia es la de menor MAE en validación. |
@@ -154,7 +154,7 @@ Preferir estructura simple y explicable sobre andamiaje complejo. No agregar CI,
 | **Open-Meteo** (clima histórico ERA5, calidad del aire, etc.) | Sin llave | Gratis solo para **uso no comercial**; límites de uso justo ≈ 10 000 llamadas/día, 5 000/h, 600/min. Datos **CC BY 4.0**: mostrar «Weather data by Open-Meteo.com» con enlace en el prototipo y el informe. |
 | **NASA POWER** (clima y radiación diarios desde 1981) | Sin autenticación | Citar el proyecto POWER; el sitio indica licencia CC BY 4.0. Faltantes = `-999`. |
 | **datos.gov.co** (Socrata/SODA: IDEAM, EVA agropecuarias, etc.) | Lectura pública; token de app opcional | Endpoint tipo `https://www.datos.gov.co/resource/<id>.json`. Paginar con `$limit`/`$offset` y `$order` estable. **Revisar la licencia en la ficha de cada conjunto.** Verificar cobertura temporal real del conjunto antes de depender de él. |
-| **XM** (API Sinergox, sector eléctrico) | Sin usuario ni clave. `pydataxm` (MIT, requiere Python ≥ 3.10.4) o POST a `https://servapibi.xm.com.co/{hourly,daily,monthly,lists}` con `MetricId`, `StartDate`, `EndDate`, `Entity` | **Máx. 30 días por llamada** en datos horarios y diarios (731 mensuales, 366 anuales): fragmentar y dejar pausas. Listar las métricas reales (`get_collections()` o endpoint `lists` con `ListadoMetricas`) **antes** de fijar nombres o granularidad. Licencia de los datos **por confirmar con XM** antes del Hito 2; citar siempre la fuente. |
+| **XM** (API Sinergox, sector eléctrico) | Sin usuario ni clave. `pydataxm` (MIT, requiere Python ≥ 3.10.4) o POST a `https://servapibi.xm.com.co/{hourly,daily,monthly,lists}` con `MetricId`, `StartDate`, `EndDate`, `Entity` | **Máx. 30 días por llamada** en datos horarios y diarios (731 mensuales, 366 anuales): fragmentar y dejar pausas. Listar las métricas reales (`get_collections()` o endpoint `lists` con `ListadoMetricas`) **antes** de fijar nombres o granularidad. Uso citando la fuente XM (confirmado por el equipo, 2026-11-16). |
 | **OpenAQ v3** (calidad del aire) | Llave gratuita (`X-API-Key`) | ≈ 60 solicitudes/min y 2 000/h. **Cobertura desigual**: verificar que existan estaciones en la zona antes de comprometerse. |
 
 ### 6.3 Partición y fuga de datos
@@ -169,7 +169,7 @@ Preferir estructura simple y explicable sobre andamiaje complejo. No agregar CI,
 ### 6.4 Reglas específicas del proyecto (precio de bolsa)
 
 - **Solo información disponible al cierre del día t** para predecir t+1: rezagos, aportes, embalses, demanda, clima observado y calendario de t+1. Por decisión de diseño se **excluyen** las ofertas/despacho de t+1 y el clima de t+1 (fuga).
-- El precio de bolsa se forma **hora a hora**; el objetivo diario se agrega de la serie horaria. Fijar la definición (promedio simple vs. ponderado) en el Hito 2 y **no cambiarla** después.
+- El objetivo es `PPPrecBolsNaci`, precio oficial ponderado diario de bolsa nacional (COP/kWh); **no se promedian las horas**.
 - Métricas siempre en **COP/kWh, escala original**, aunque el modelo use logaritmo u otra transformación.
 - Los precios son nominales y hay **cambio de régimen** (El Niño 2015–16 en entrenamiento, 2023–24 en validación, alza de 2026 en prueba): reportar MAE por año y tratar la deriva como hallazgo, no como ruido. Nunca reajustar umbrales mirando la prueba.
 - Las ventanas móviles solo miran hacia atrás; ninguna variable se deriva del objetivo de t+1.
@@ -347,3 +347,9 @@ Anotar aquí cada decisión relevante, y **obligatoriamente** cualquier cambio d
 | 2026-11-05 | Se elige la Ruta C (Aprendizaje automático) con dataset crudo construido desde APIs gratuitas | Decisión del equipo | |
 | 2026-11-05 | Dominio: energía — precio de bolsa de la electricidad (XM + clima) | Camino distinto al ejemplo agro del enunciado; datos públicos, sin datos personales, API verificada | |
 | 2026-11-05 | Hito 1 redactado: objetivo t+1, partición cronológica, líneas base B0/B1/B2, MAE primaria y umbral de mejora ≥10 % | Declarado antes de experimentar | |
+| 2026-11-16 | Variable objetivo = `PPPrecBolsNaci` | Precio oficial ponderado diario de bolsa nacional, sin promediar horas | Equipo |
+| 2026-11-16 | Puntos de clima: Barranquilla, Bogotá, Medellín, Cali, Guatapé/El Peñol y Guavio | Puntos fijados por el equipo para las variables climáticas | Equipo |
+| 2026-11-16 | Fecha de corte de datos = 2026-11-09 | Última fecha con datos meteorológicos válidos común a las fuentes seleccionadas | Equipo |
+| 2026-11-16 | Grupos de variables para ablación: S0 = price+demand+calendar; S1 = S0+hydro; S2 = S1+climate | Ablación definida antes del modelado | Equipo |
+| 2026-11-16 | Partición cronológica por `target_date` | Entrenamiento 2015–2022, validación 2023–2024 y prueba 2025-01-01–2026-11-09 | Equipo |
+| 2026-11-16 | Línea base de referencia = B1 persistencia | Menor MAE en validación: 66,27 COP/kWh, frente a B2 (70,07) y B0 (410,40); se selecciona sin usar prueba | Equipo |

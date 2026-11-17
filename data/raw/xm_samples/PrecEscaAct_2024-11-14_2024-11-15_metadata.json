@@ -1,0 +1,29 @@
+{
+  "source": "XM API",
+  "url": "https://servapibi.xm.com.co/daily",
+  "parameters": {
+    "MetricId": "PrecEscaAct",
+    "StartDate": "2024-11-14",
+    "EndDate": "2024-11-15",
+    "Entity": "Sistema",
+    "Filter": []
+  },
+  "retrieved_at_utc": "2026-11-17T00:00:21.149544+00:00",
+  "http_status": 200,
+  "pydataxm_version": "0.3.19",
+  "rows": 2,
+  "catalog_metric": {
+    "MetricId": "PrecEscaAct",
+    "MetricName": "Precio Escasez Activación por Sistema",
+    "Entity": "Sistema",
+    "MaxDays": 31,
+    "Type": "DailyEntities",
+    "Url": "https://servapibi.xm.com.co/daily",
+    "Filter": "No aplica",
+    "MetricUnits": "COP/kWh",
+    "MetricDescription": "Precio de Escasez de Activación calculado de acuerdo con la Resolución CREG 140 del 2017"
+  },
+  "raw_response_file": "PrecEscaAct_2024-11-14_2024-11-15.json",
+  "license": "Uso citando la fuente XM (confirmado por el equipo, 2026-11-16)",
+  "attribution": "Fuente: XM"
+}

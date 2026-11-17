@@ -1,0 +1,125 @@
+seed: 42
+data_cutoff: 2026-11-09
+
+baselines:
+  B0:
+    strategy: mean
+  B1:
+    persistence_column: price_t
+  B2:
+    alpha_grid: [0.1, 1, 10, 100, 1000]
+    cv_splits: 5
+    scoring: neg_mean_absolute_error
+
+feature_groups:
+  price:
+    - price_t
+    - price_lag_1
+    - price_lag_2
+    - price_lag_3
+    - price_lag_6
+    - price_mean_7d
+    - price_mean_14d
+    - price_mean_30d
+    - price_std_7d
+    - price_std_30d
+    - price_max_30d
+  demand:
+    - demand_t
+    - demand_mean_7d
+  calendar:
+    - target_day_of_week
+    - target_is_non_working
+    - target_month
+  hydro:
+    - aportes_t
+    - aportes_media_hist_t
+    - aportes_ratio_t
+    - aportes_ratio_mean_7d
+    - aportes_ratio_mean_30d
+    - volumen_util_t
+    - volumen_util_change_7d
+  climate:
+    - climate_barranquilla_temperature_mean_t
+    - climate_barranquilla_temperature_max_t
+    - climate_barranquilla_precipitation_t
+    - climate_barranquilla_precipitation_sum_7d
+    - climate_barranquilla_precipitation_sum_30d
+    - climate_bogota_temperature_mean_t
+    - climate_bogota_temperature_max_t
+    - climate_bogota_precipitation_t
+    - climate_bogota_precipitation_sum_7d
+    - climate_bogota_precipitation_sum_30d
+    - climate_medellin_temperature_mean_t
+    - climate_medellin_temperature_max_t
+    - climate_medellin_precipitation_t
+    - climate_medellin_precipitation_sum_7d
+    - climate_medellin_precipitation_sum_30d
+    - climate_cali_temperature_mean_t
+    - climate_cali_temperature_max_t
+    - climate_cali_precipitation_t
+    - climate_cali_precipitation_sum_7d
+    - climate_cali_precipitation_sum_30d
+    - climate_guatape_el_penol_temperature_mean_t
+    - climate_guatape_el_penol_temperature_max_t
+    - climate_guatape_el_penol_precipitation_t
+    - climate_guatape_el_penol_precipitation_sum_7d
+    - climate_guatape_el_penol_precipitation_sum_30d
+    - climate_guavio_temperature_mean_t
+    - climate_guavio_temperature_max_t
+    - climate_guavio_precipitation_t
+    - climate_guavio_precipitation_sum_7d
+    - climate_guavio_precipitation_sum_30d
+
+ablation_sets:
+  S0:
+    - price
+    - demand
+    - calendar
+  S1:
+    - price
+    - demand
+    - calendar
+    - hydro
+  S2:
+    - price
+    - demand
+    - calendar
+    - hydro
+    - climate
+
+target:
+  source_column: PPPrecBolsNaci
+  name: y_next
+  date_column: target_date
+  horizon_days: 1
+
+partitions:
+  train:
+    start: 2015-01-01
+    end: 2022-12-31
+    expected_rows: 2892
+  val:
+    start: 2023-01-01
+    end: 2024-12-31
+    expected_rows: 731
+  test:
+    start: 2025-01-01
+    end: 2026-11-09
+    expected_rows: 678
+
+auxiliary_columns:
+  - hydro_regime
+  - tipo_dia
+  - year
+
+auxiliary:
+  tercile_cutoffs_fit_on: train_only
+  hydro_regime_source: aportes_ratio_t
+  calendar_source_date: target_date
+
+holidays:
+  country: CO
+  package: holidays
+  version: "0.108"
+  license: MIT

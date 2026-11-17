@@ -9,9 +9,10 @@ import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
 
 import requests
+
+from src.data.project_config import load_data_cutoff
 
 LOGGER = logging.getLogger("download_openmeteo")
 API_URL = "https://archive-api.open-meteo.com/v1/archive"
@@ -192,7 +193,7 @@ def summarize_point(
 
 def save_point(point_name: str, coordinates: dict[str, float], root: Path) -> None:
     """Carga desde caché o descarga y guarda respuesta y metadatos de un punto."""
-    end_date = datetime.now(ZoneInfo(TIMEZONE)).date()
+    end_date = load_data_cutoff(root)
     parameters = build_parameters(coordinates, end_date)
     point_dir = root / "data" / "raw" / "openmeteo" / point_name
     raw_path = point_dir / "response.json"
